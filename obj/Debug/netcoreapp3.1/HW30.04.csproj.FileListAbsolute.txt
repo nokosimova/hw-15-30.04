@@ -1,0 +1,13 @@
+C:\projects\hw30.04\bin\Debug\netcoreapp3.1\HW30.04.exe
+C:\projects\hw30.04\bin\Debug\netcoreapp3.1\HW30.04.deps.json
+C:\projects\hw30.04\bin\Debug\netcoreapp3.1\HW30.04.runtimeconfig.json
+C:\projects\hw30.04\bin\Debug\netcoreapp3.1\HW30.04.runtimeconfig.dev.json
+C:\projects\hw30.04\bin\Debug\netcoreapp3.1\HW30.04.dll
+C:\projects\hw30.04\bin\Debug\netcoreapp3.1\HW30.04.pdb
+C:\projects\hw30.04\obj\Debug\netcoreapp3.1\HW30.04.csprojAssemblyReference.cache
+C:\projects\hw30.04\obj\Debug\netcoreapp3.1\HW30.04.csproj.CoreCompileInputs.cache
+C:\projects\hw30.04\obj\Debug\netcoreapp3.1\HW30.04.AssemblyInfoInputs.cache
+C:\projects\hw30.04\obj\Debug\netcoreapp3.1\HW30.04.AssemblyInfo.cs
+C:\projects\hw30.04\obj\Debug\netcoreapp3.1\HW30.04.dll
+C:\projects\hw30.04\obj\Debug\netcoreapp3.1\HW30.04.pdb
+C:\projects\hw30.04\obj\Debug\netcoreapp3.1\HW30.04.genruntimeconfig.cache
