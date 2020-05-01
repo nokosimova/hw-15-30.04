@@ -7,39 +7,41 @@ namespace HW30
 {
     class Program
     {
-        static int height = 10;
+        static int height = 20;
         static char[] SingleColumn = new char[height];
         static int InitRow;
         static int InitColumn;
+        static object locker = new object();
         
         static void Main(string[] args)
         {
             CleanColumn();
             InitColumn = Console.CursorLeft;
             InitRow = Console.CursorTop;
-            WriteStream(2);
+            Task[] tasks = new Task[20];
+            for (int j = 0; j < tasks.Length; j++)
+            {
+                object k = 2*j;
+                tasks[j] = Task.Factory.StartNew(WriteStream, k);
+            }
+            Task.WaitAny(tasks);
+            Console.ReadLine();
+
 
         }
         public static void CleanColumn()
         {
             for (int i = 0; i < SingleColumn.Length; i++)
-                SingleColumn[i] = '.';
+                SingleColumn[i] = ' ';
         }
 
         //вывод символа:
         public static void WriteAt(char letter, object p)
         {
             Point point = p as Point;
-            try
-            {
                 Console.SetCursorPosition(InitColumn + point.col, InitRow + point.row);
                 Console.Write(letter);
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                Console.Clear();
-                Console.WriteLine(e.Message);
-            }
+           
         }
         //вывод столбца
         public static void WriteList(int column)
@@ -58,26 +60,26 @@ namespace HW30
             Point point = new Point(0,0);
             int i, beginpos, endpos;
             point.col = (int)column;
-            int letterstreamheight = randomheight.Next(2,5); //длина потока букв
+            int letterstreamheight = randomheight.Next(4,6); //длина потока букв
             
-            for (i = 0; i < height + letterstreamheight; i++)
+            for (i = 0; i <= height + letterstreamheight; i++)
             {
+                 lock(locker) {
                 CleanColumn();
+                letterstreamheight = randomheight.Next(4,6); 
                 beginpos = (i <= letterstreamheight) ? 0 : i - letterstreamheight;
                 endpos = (i <= height)? i : height;
                     for (int letterpos = beginpos; letterpos < endpos; letterpos++)
                     {                                                  
                             char letter = Convert.ToChar(randomletter.Next(65,90));
                             SingleColumn[point.row + letterpos] = letter; 
-                           // Console.SetCursorPosition(InitColumn + point.col, InitRow + point.row + letterpos);
-                           // Console.Write(letter);
-                            
                     }
                 WriteList((int) column);
-                Thread.Sleep(500);
-                Console.Clear();
-                                
+                Thread.Sleep(50);
+           //     Console.Clear();   
+                  }
             }
+          
 
 
 
