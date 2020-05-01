@@ -1,72 +1,85 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic; 
+
+namespace HW30
+{
+    class Program
+    {
+        static List<char> StreamList = new List<char>();
+        static int InitRow;
+        static int InitColumn;
+        
+        static void Main(string[] args)
+        {
+            InitColumn = Console.CursorLeft;
+            InitRow = Console.CursorTop;
+            StreamList.Add('A');
+            StreamList.Add('B');
+            StreamList.Add('C');
+            StreamList.Add('D');
+            WriteList(2);
+
+        }
+
+        //вывод листа-столбца:
+        public static void WriteAt(char letter, object p)
+        {
+            Point point = p as Point;
+            try
+            {
+                Console.SetCursorPosition(InitColumn + point.col, InitRow + point.row);
+                Console.Write(letter);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.Clear();
+                Console.WriteLine(e.Message);
+            }
+        }
+        public static void WriteList(int column)
+        {
+            for (int i = 0; i < StreamList.Count; i++)
+            {
+                Point point = new Point(column,i);
+                WriteAt(StreamList[i], point);
+            }
+        }
+    }
+}
+
+
+/*using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic; 
 
 namespace HW30._04
 {
     class Program
     {
+        static object locker = new object();
+        static int InitColumn = Console.CursorLeft;
+        static int InitRow = Console.CursorTop;
+        static int height = 10;
+        static List<char> SingleStream = new List<char>();
         static void Main(string[] args)
         {
- 
+            for(int i = 0; i < height; i++)
+                SingleStream.Add(' ');
             Console.Clear();
             WaterFall.height = 5;
             WaterFall.row = Console.CursorTop;
             WaterFall.column = Console.CursorLeft;
-            
-            Task[] tasks = new Task[1];
+
+            Task[] tasks = new Task[2];
             for (int j = 0; j < tasks.Length; j++)
-            {   
+            {
                 object k = j;
                 tasks[j] = Task.Factory.StartNew(StreamMovie, k);
             }
             Console.ReadLine();
-           /* Parallel.For(0,20,(j)=>{
-                point.col = j;
-                for (int i = 0; i <= 5; i++)
-                {
-                    point.row = i;
-                    WaterFall.WriteAt(point);
-                }
-            });
-            */
-       /*     Parallel.Invoke(()=>{
-                point.col = 0;
-                for (int i = 0; i <= 5; i++)
-                {
-                    point.row = i;
-                    WaterFall.WriteAt(point);
-                }
-            }
-            ,()=>{
-                point.col = 1;
-                for (int i = 0; i <= 5; i++)
-                {
-                    point.row = i;
-                    WaterFall.WriteAt(point);
-                }},
-               ()=> {
-                point.col = 2;
-                for (int i = 0; i <= 5; i++)
-                {
-                    point.row = i;
-                    WaterFall.WriteAt(point);
-                }
-                });*/
-           // WaterFall.Stream(num);
-          //  TimerCallback tm = new TimerCallback(WaterFall.Stream);
-            
-          /*  Task task1 = Task.Factory.StartNew((i) => {
-                
-                Timer timer = new Timer(tm, i, 0, 8000);
-            },5);
-
-            Task task2 = Task.Factory.StartNew((i) => {
-             //   TimerCallback tm = new TimerCallback(WaterFall.Stream);
-                Timer timer = new Timer(tm, i, 0, 8000);
-            },2);*/
-            //task1.Start();
-            
         }
         public static void StreamMovie(object column)
         {
@@ -84,26 +97,25 @@ namespace HW30._04
             Point point = new Point();
             point.col = (int)column;
                     int streamheight = randomheight.Next(2,5); 
-                    for (int i = 1; i <= 10; i++)
+                    for (int i = 0; i < height; i++)
                     {
-                        point.row = i;
-                        int count = (i < streamheight)? i:streamheight;
+                        point.row = (i <= streamheight)?1:i;
+                        int count = (i <= streamheight)? i:streamheight;
+
                         for (int letter = 0; letter < count; letter++)
-                        {
+                        {                          
                             if (point.row + letter <= 10)
                             {
-                                Console.SetCursorPosition(WaterFall.column + point.col, WaterFall.row + point.row + letter);
+                                Console.SetCursorPosition(InitColumn + point.col, InitRow + point.row + letter);
                                 Console.Write(Convert.ToChar(randomletter.Next(65,90)));
                             }
+                            
                         }
                         Thread.Sleep(1000);
                         Console.Clear();
                     }
                     Console.Clear();
-                    
-
-
         }
-        
     }
 }
+*/
