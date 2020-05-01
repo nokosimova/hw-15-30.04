@@ -16,28 +16,25 @@ namespace HW30
 
         public static void WriteAt(object p)
         {
-            string s = "h";
+            
+            string s = "h";           
             Point point = p as Point;
-
             Console.SetCursorPosition(column + point.col, row + point.row);
             Console.Write(s);
-            Thread.Sleep(500);
-            Console.Clear();
         }
         public static void Stream(int column)
         {
            // WaterFall.row = Console.CursorTop;
            // WaterFall.column = Console.CursorLeft;
-            Parallel.For(1,column, (j)=>{
+            //Parallel.For(1,column, (j)=>{
                 Point point = new Point();
-                point.col = j;
+                point.col = column;
                 for (int i = 0; i <= height; i++)
                 {
                     point.row = i;
                     WaterFall.WriteAt(point);
                 }
-            });
-            Console.ReadLine();
+          //  Console.ReadLine();
             Console.Clear();
         }
         
