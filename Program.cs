@@ -7,23 +7,26 @@ namespace HW30
 {
     class Program
     {
-        static List<char> StreamList = new List<char>();
+        static int height = 10;
+        static char[] SingleColumn = new char[height];
         static int InitRow;
         static int InitColumn;
         
         static void Main(string[] args)
         {
+            CleanColumn();
             InitColumn = Console.CursorLeft;
             InitRow = Console.CursorTop;
-            StreamList.Add('A');
-            StreamList.Add('B');
-            StreamList.Add('C');
-            StreamList.Add('D');
-            WriteList(2);
+            WriteStream(2);
 
         }
+        public static void CleanColumn()
+        {
+            for (int i = 0; i < SingleColumn.Length; i++)
+                SingleColumn[i] = '.';
+        }
 
-        //вывод листа-столбца:
+        //вывод символа:
         public static void WriteAt(char letter, object p)
         {
             Point point = p as Point;
@@ -38,14 +41,75 @@ namespace HW30
                 Console.WriteLine(e.Message);
             }
         }
+        //вывод столбца
         public static void WriteList(int column)
         {
-            for (int i = 0; i < StreamList.Count; i++)
+            for (int i = 0; i < SingleColumn.Length; i++)
             {
                 Point point = new Point(column,i);
-                WriteAt(StreamList[i], point);
+                WriteAt(SingleColumn[i], point);
             }
         }
+        //вывод цепочки({переписывать лист + показывать лист} - н раз)
+        public static void WriteStream(object column)
+        {
+            Random randomletter = new Random();
+            Random randomheight = new Random();
+            Point point = new Point(0,0);
+            int i, beginpos, endpos;
+            point.col = (int)column;
+            int letterstreamheight = randomheight.Next(2,5); //длина потока букв
+            
+            for (i = 0; i < height + letterstreamheight; i++)
+            {
+                CleanColumn();
+                beginpos = (i <= letterstreamheight) ? 0 : i - letterstreamheight;
+                endpos = (i <= height)? i : height;
+                    for (int letterpos = beginpos; letterpos < endpos; letterpos++)
+                    {                                                  
+                            char letter = Convert.ToChar(randomletter.Next(65,90));
+                            SingleColumn[point.row + letterpos] = letter; 
+                           // Console.SetCursorPosition(InitColumn + point.col, InitRow + point.row + letterpos);
+                           // Console.Write(letter);
+                            
+                    }
+                WriteList((int) column);
+                Thread.Sleep(500);
+                Console.Clear();
+                                
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                /*    {
+                        point.row = (i <= letterstreamheight)?1:i;
+                        int count = (i <= letterstreamheight)? i:letterstreamheight;
+
+                        for (int letter = 0; letter < count; letter++)
+                        {                          
+                            if (point.row + letter <= 10)
+                            {
+                                Console.SetCursorPosition(InitColumn + point.col, InitRow + point.row + letter);
+                                Console.Write(Convert.ToChar(randomletter.Next(65,90)));
+                            }
+                            
+                        }
+                        Thread.Sleep(1000);
+                        Console.Clear();
+                    }
+                    Console.Clear();    */
+        }
+
     }
 }
 
@@ -96,11 +160,11 @@ namespace HW30._04
             Random randomheight = new Random();
             Point point = new Point();
             point.col = (int)column;
-                    int streamheight = randomheight.Next(2,5); 
+                    int letterstreamheight = randomheight.Next(2,5); 
                     for (int i = 0; i < height; i++)
                     {
-                        point.row = (i <= streamheight)?1:i;
-                        int count = (i <= streamheight)? i:streamheight;
+                        point.row = (i <= letterstreamheight)?1:i;
+                        int count = (i <= letterstreamheight)? i:letterstreamheight;
 
                         for (int letter = 0; letter < count; letter++)
                         {                          
