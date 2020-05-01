@@ -16,11 +16,16 @@ namespace HW30
 
         public static void WriteAt(object p)
         {
-            
-            string s = "h";           
+            WaterFall.row = Console.CursorTop;
+            WaterFall.column = Console.CursorLeft;
+            string s = "h";
+           
             Point point = p as Point;
+
             Console.SetCursorPosition(column + point.col, row + point.row);
             Console.Write(s);
+            Thread.Sleep(800);
+            Console.Clear();
         }
         public static void Stream(int column)
         {

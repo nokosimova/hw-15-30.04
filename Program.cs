@@ -8,67 +8,19 @@ namespace HW30._04
     {
         static void Main(string[] args)
         {
+ 
             Console.Clear();
             WaterFall.height = 5;
             WaterFall.row = Console.CursorTop;
             WaterFall.column = Console.CursorLeft;
-            Task[] tasks = new Task[2];
-            Point point = new Point();
             
-          /*  point.col = 0;
-            
-            for (int i = 1; i <= 10; i++)
-            {
-                point.row = i;
-                int count = (i < 4)? i:4;
-                for (int letter = 0; letter < count; letter++)
-                {
-                    if (point.row + letter <= 10) 
-                    {
-                        Console.SetCursorPosition(WaterFall.column + point.col, WaterFall.row + point.row + letter);
-                        Console.Write("h");
-                    }
-                    
-                   // WaterFall.WriteAt(point);
-                
-                }
-                Thread.Sleep(800);
-                Console.Clear();
-            }
-            */
-
-
+            Task[] tasks = new Task[1];
             for (int j = 0; j < tasks.Length; j++)
             {   
-                tasks[j] = Task.Factory.StartNew(()=>{
-                    object k = j;
-                    TimerCallback tm = new TimerCallback((l)=>{
-                        point.col = (int)l;
-                for (int i = 1; i <= 10; i++)
-                {
-                    point.row = i;
-                    int count = (i < 4)? i:4;
-                    for (int letter = 0; letter < count; letter++)
-                    {
-                        if (point.row + letter <= 10) 
-                        {
-                            Console.SetCursorPosition(WaterFall.column + point.col, WaterFall.row + point.row + letter);
-                            Console.Write("h");
-                        }
-                    
-                   // WaterFall.WriteAt(point);
-                
-                }
-                Thread.Sleep(800);
-                Console.Clear();
-            }
-                        Console.Clear();
-                        });
-                    Timer timer = new Timer(tm, k, 0, 9000);
-                });
+                object k = j;
+                tasks[j] = Task.Factory.StartNew(StreamMovie, k);
             }
             Console.ReadLine();
-    
            /* Parallel.For(0,20,(j)=>{
                 point.col = j;
                 for (int i = 0; i <= 5; i++)
@@ -116,5 +68,42 @@ namespace HW30._04
             //task1.Start();
             
         }
+        public static void StreamMovie(object column)
+        {
+            Random randomletter = new Random();
+            Random randomheight = new Random();
+            Point point = new Point();
+                    TimerCallback tm = new TimerCallback(Stream);
+                    Timer timer = new Timer(tm, column, 0, 12000);
+        }
+
+        public static void Stream(object column)
+        {
+            Random randomletter = new Random();
+            Random randomheight = new Random();
+            Point point = new Point();
+            point.col = (int)column;
+                    int streamheight = randomheight.Next(2,5); 
+                    for (int i = 1; i <= 10; i++)
+                    {
+                        point.row = i;
+                        int count = (i < streamheight)? i:streamheight;
+                        for (int letter = 0; letter < count; letter++)
+                        {
+                            if (point.row + letter <= 10)
+                            {
+                                Console.SetCursorPosition(WaterFall.column + point.col, WaterFall.row + point.row + letter);
+                                Console.Write(Convert.ToChar(randomletter.Next(65,90)));
+                            }
+                        }
+                        Thread.Sleep(1000);
+                        Console.Clear();
+                    }
+                    Console.Clear();
+                    
+
+
+        }
+        
     }
 }
