@@ -7,7 +7,7 @@ namespace HW30
 {
     class Program
     {
-        static int height = 20;
+        static int height = 10;
         static char[] SingleColumn = new char[height];
         static int InitRow;
         static int InitColumn;
@@ -15,16 +15,19 @@ namespace HW30
         
         static void Main(string[] args)
         {
+            CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+            CancellationToken token = cancelTokenSource.Token;
             CleanColumn();
             InitColumn = Console.CursorLeft;
             InitRow = Console.CursorTop;
-            Task[] tasks = new Task[20];
+            Task[] tasks = new Task[2];
             for (int j = 0; j < tasks.Length; j++)
             {
                 object k = 2*j;
                 tasks[j] = Task.Factory.StartNew(WriteStream, k);
             }
-            Task.WaitAny(tasks);
+            int index = Task.WaitAny(tasks);
+            Console.WriteLine($"{index}");
             Console.ReadLine();
 
 
@@ -41,13 +44,17 @@ namespace HW30
             Point point = p as Point;
                 Console.SetCursorPosition(InitColumn + point.col, InitRow + point.row);
                 Console.Write(letter);
+
            
         }
         //вывод столбца
-        public static void WriteList(int column)
+        public static void WriteList(int column, int prelast, int last)
         {
             for (int i = 0; i < SingleColumn.Length; i++)
             {
+                if (i == last) Console.ForegroundColor = ConsoleColor.Blue;
+                else if (i == prelast) Console.ForegroundColor = ConsoleColor.Green;
+                else Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Point point = new Point(column,i);
                 WriteAt(SingleColumn[i], point);
             }
@@ -64,18 +71,21 @@ namespace HW30
             
             for (i = 0; i <= height + letterstreamheight; i++)
             {
-                 lock(locker) {
+                int last = 0, prelast = 0;
+                lock(locker) {
                 CleanColumn();
                 letterstreamheight = randomheight.Next(4,6); 
                 beginpos = (i <= letterstreamheight) ? 0 : i - letterstreamheight;
                 endpos = (i <= height)? i : height;
                     for (int letterpos = beginpos; letterpos < endpos; letterpos++)
-                    {                                                  
+                    {       
                             char letter = Convert.ToChar(randomletter.Next(65,90));
                             SingleColumn[point.row + letterpos] = letter; 
                     }
-                WriteList((int) column);
-                Thread.Sleep(50);
+                prelast = point.row + endpos - 2;
+                last = point.row + endpos - 1;
+                WriteList((int) column, prelast, last);
+                Thread.Sleep(500);
            //     Console.Clear();   
                   }
             }
