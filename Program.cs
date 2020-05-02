@@ -20,17 +20,18 @@ namespace HW30
             CleanColumn();
             InitColumn = Console.CursorLeft;
             InitRow = Console.CursorTop;
-            Task[] tasks = new Task[2];
+            TimerCallback tm = new TimerCallback((i)=>{
+                Task[] tasks = new Task[20];
             for (int j = 0; j < tasks.Length; j++)
             {
                 object k = 2*j;
                 tasks[j] = Task.Factory.StartNew(WriteStream, k);
             }
-            int index = Task.WaitAny(tasks);
-            Console.WriteLine($"{index}");
+           // int index = Task.WaitAny(tasks);//почему-то не работает
+           // Console.Clear();
+            });
+            Timer timer = new Timer(tm, null, 0, 12000);
             Console.ReadLine();
-
-
         }
         public static void CleanColumn()
         {
@@ -85,8 +86,7 @@ namespace HW30
                 prelast = point.row + endpos - 2;
                 last = point.row + endpos - 1;
                 WriteList((int) column, prelast, last);
-                Thread.Sleep(500);
-           //     Console.Clear();   
+                Thread.Sleep(30);   
                   }
             }
           
